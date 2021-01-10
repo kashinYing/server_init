@@ -51,15 +51,16 @@ let NERDTreeMapActivateNode='<space>'
 " Open file via NERDTree Tabs, hot key: \t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 " Start NERDTree Tabs automatically
-let g:nerdtree_tabs_open_on_console_startup = 1
+let g:nerdtree_tabs_open_on_console_startup=1
 
 " nerdcommenter settings
-let g:NERDSpaceDelims = 1            " Add spaces after comment delimiters by default
-let g:NERDCompactSexyComs = 1        " Use compact syntax for prettified multi-line comments
-let g:NERDDefaultAlign = 'left'      " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDCommentEmptyLines = 1      " Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
-let g:NERDToggleCheckAllLines = 1    " Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDSpaceDelims=1            " Add spaces after comment delimiters by default
+let g:NERDCompactSexyComs=1        " Use compact syntax for prettified multi-line comments
+let g:NERDDefaultAlign='left'      " Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDCommentEmptyLines=1      " Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDTrimTrailingWhitespace=1 " Enable trimming of trailing whitespace when uncommenting
+let g:NERDToggleCheckAllLines=1    " Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDTreeShowHidden=1         " Show dotfiles
 
 " tab swtich
 nnoremap <C-h> :tabprevious<CR>
