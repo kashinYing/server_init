@@ -9,6 +9,7 @@ Plugin 'Lokaltog/vim-powerline'
 Plugin 'preservim/nerdtree'
 Plugin 'preservim/nerdcommenter'
 Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'valloric/youcompleteme'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -41,6 +42,9 @@ nmap <Up> <NOP>
 nmap <Down> <NOP>
 nmap <Left> <NOP>
 nmap <Right> <NOP>
+
+" ycm settings
+let g:ycm_key_list_stop_completion=[ '<C-y>', '<Enter>' ]
 
 " nerdtree settings
 map <C-n> :NERDTreeToggle<CR>

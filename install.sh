@@ -47,31 +47,30 @@ elif cat /proc/version | grep -Eqi 'centos|red hat|redhat'; then
   syspwd='/usr/lib/systemd/system'
 fi
 
-green "release: $release"
-green "syspkg: $syspkg"
-green "syspwd: $syspwd"
-
-
 tools_to_install=(
   'git'
   'vim'
   'tmux'
 )
 
+# current directory
+dir=`dirname $0`
+
 # install tools
 for t in "${tools_to_install[@]}"; do
   yellow "Installing $t"
   $syspkg -y install $t
+  echo
 done
 
 # bash
-bashrc_file='./bash/.bashrc'
+bashrc_file="$dir/bash/.bashrc"
 green "Copying $bashrc_file to $HOME/.bashrc"
 cp $bashrc_file $HOME
 
-profile='./bash/.profile'
-green "Copying $profile to $HOME/.profile"
-cp $profile $HOME
+bash_profile="$dir/bash/.bash_profile"
+green "Copying $bash_profile to $HOME/.bash_profile"
+cp $bash_profile $HOME
 
 # vim
 yellow 'Customizing vim'
@@ -81,7 +80,7 @@ vundle_local_path_to_install="$HOME/.vim/bundle/Vundle.vim"
 green "Installing vundle to $vundle_local_path_to_install"
 git clone $vundle_git_link $vundle_local_path_to_install
 
-vimrc_file='./vim/.vimrc'
+vimrc_file="$dir/vim/.vimrc"
 green "Copying $vimrc_file to $HOME/.vimrc"
 cp $vimrc_file $HOME
 
