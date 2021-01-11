@@ -49,12 +49,11 @@ fi
 
 tools_to_install=(
   'git'
-  # 'vim'
   'tmux'
 )
 
 # current directory
-dir=`dirname $0`
+dir=$(dirname $(realpath -s $0))
 
 # install tools
 for t in "${tools_to_install[@]}"; do
@@ -64,22 +63,24 @@ done
 
 # install latest vim to support latest ycm
 # see https://phoenixnap.com/kb/how-to-install-vim-centos-7
-# and 
-# http://blog.dreamlikes.cn/archives/940
+# and http://blog.dreamlikes.cn/archives/940
 yellow "\nRemoving old vim"
 $syspkg -y remove vim
 
 blue "\nInstalling latest vim"
-$syspkg -y install gcc make ncurses-devel python-devel
+$syspkg -y install gcc make ncurses-devel python python-devel python3 python3-devel centos-release-scl devtoolset-8 cmake
 git clone https://github.com/vim/vim.git
-cd vim/src
-./configure \
-  --with-features=huge \
-  --enable-pythoninterp=yes \
-  --enable-cscope \
-  --enable-fontset \
-  --with-python-config-dir=/usr/lib64/python2.7/config
-make
+cd vim
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-python3interp=yes \
+            --with-python3-config-dir=$(python3-config --configdir) \
+            --enable-gui=gtk2 \
+            --enable-fontset \
+            --enable-cscope \
+            --prefix=/usr/local
+# make
+make VIMRUNTIMEDIR=/usr/local/share/vim/vim82
 make install
 
 # cd back
@@ -121,3 +122,6 @@ cp $vimrc_file $HOME
 
 green "Installing vim plugins"
 vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa
+
+# install ycm
+$HOME/.vim/bundle/youcompleteme/install.py

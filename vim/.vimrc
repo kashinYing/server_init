@@ -15,6 +15,8 @@ Plugin 'tpope/vim-surround'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+set backspace=indent,eol,start
+
 " theme
 syntax enable
 colorscheme gruvbox

@@ -13,3 +13,8 @@ fi
 
 # export latest vim
 export PATH=$PATH:/usr/local/bin/vim
+
+# enable gcc g++ with higher version
+# once time command
+# scl enable devtoolset-8 -- bash
+source scl_source enable devtoolset-8
