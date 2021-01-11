@@ -10,3 +10,6 @@ if [ "$TERM" == "xterm" ]; then
   # No it isn't, it's gnome-terminal
   export TERM=xterm-256color
 fi
+
+# export latest vim
+export PATH=$PATH:/usr/local/bin/vim
