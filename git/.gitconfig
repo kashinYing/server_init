@@ -1,0 +1,11 @@
+[user]
+  name = kashin
+  email = 573255300@qq.com
+ 
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true

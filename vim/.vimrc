@@ -10,6 +10,8 @@ Plugin 'preservim/nerdtree'
 Plugin 'preservim/nerdcommenter'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'valloric/youcompleteme'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-surround'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -43,21 +45,34 @@ nmap <Down> <NOP>
 nmap <Left> <NOP>
 nmap <Right> <NOP>
 
-" ycm settings
+" ctrlp
+" see http://kien.github.io/ctrlp.vim/#installation
+let g:ctrlp_map='<c-p>'
+let g:ctrlp_cmd='CtrlP'
+
+let g:ctrlp_dotfiles=1
+
+let g:ctrlp_custom_ignore={
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
+
+" ycm
 let g:ycm_key_list_stop_completion=[ '<C-y>', '<Enter>' ]
 
-" nerdtree settings
+" nerdtree
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeMapActivateNode='<space>'
 
-" nerdtree-tabs settings
+" nerdtree-tabs
 " Drop NERDTree Tabs settings at the end of the config file
 " Open file via NERDTree Tabs, hot key: \t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 " Start NERDTree Tabs automatically
 let g:nerdtree_tabs_open_on_console_startup=1
 
-" nerdcommenter settings
+" nerdcommenter
 let g:NERDSpaceDelims=1               " Add spaces after comment delimiters by default
 let g:NERDCompactSexyComs=1           " Use compact syntax for prettified multi-line comments
 let g:NERDDefaultAlign='left'         " Align line-wise comment delimiters flush left instead of following code indentation
