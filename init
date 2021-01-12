@@ -54,7 +54,6 @@ fi
 
 tools_to_install=(
   'git'
-  'tmux'
   'make'
   'cmake'
 )
@@ -88,21 +87,25 @@ for t in "${tools_to_install[@]}"; do
   fi
 done
 
-# install latest vim to support latest ycm
-# see https://github.com/vim/vim/blob/master/src/INSTALL
-# see https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source
-# see http://blog.dreamlikes.cn/archives/940
-yellow '\nRemoving old vim'
-$syspkg -y remove vim
-
+# install vim manually
+vim_version=8.2
+vim_minor_version=8.2.2332
 vim_dir=/usr/local/share/vim/vim82
 
-if [ -d $vim_dir ]; then 
-  yellow '\nVim 8 already exists, skip installing'
+if vim --version | grep -Eqi "Vi IMproved $tmux_version"; then 
+  yellow "\nVim $vim_version already exists, skip"
 else
-  blue '\nInstalling latest vim'
-  git clone https://github.com/vim/vim.git
-  cd vim
+  yellow '\nRemoving old vim'
+  $syspkg -y remove vim
+
+  # see https://github.com/vim/vim/blob/master/src/INSTALL
+  # see https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source
+  # see http://blog.dreamlikes.cn/archives/940
+  blue "\nInstalling vim $vim_version"
+  # git clone https://github.com/vim/vim.git
+  curl -OL "https://github.com/vim/vim/archive/v$vim_minor_version.tar.gz"
+  tar -xvzf "v$vim_minor_version.tar.gz"
+  cd "v$vim_minor_version.tar.gz"
   ./configure --with-features=huge \
               --enable-multibyte \
               --enable-python3interp=yes \
@@ -115,7 +118,38 @@ else
   make install
 
   # cd back
-  cd $dir
+  cd ..
+fi
+
+# install tmux manually
+libevent_version=2.1.11
+tmux_version=3.1b
+
+if tmux -V | grep -Eqi $tmux_version; then
+  yellow "\nTmux $tmux_version already exists, skip"
+else
+  yellow '\nRemoving old tmux'
+  $syspkg -y remove tmux
+
+  # download sources for libevent and make and install
+  blue "\nInstalling libevent $libevent_version"
+  curl -OL "https://github.com/libevent/libevent/releases/download/release-$libevent_version-stable/libevent-$libevent_version-stable.tar.gz"
+  tar -xvzf "libevent-$libevent_version-stable.tar.gz"
+  cd "libevent-$libevent_version-stable"
+  ./configure --prefix=/usr/local
+  make
+  make install
+  cd ..
+
+  # download sources for tmux and make and install
+  blue "\nInstalling tmux $tmux_version"
+  curl -OL "https://github.com/tmux/tmux/releases/download/$tmux_version/tmux-$tmux_version.tar.gz"
+  tar -xvzf "tmux-$tmux_version.tar.gz"
+  cd "tmux-$tmux_version"
+  LDFLAGS="-L/usr/local/lib -Wl,-rpath=/usr/local/lib" ./configure --prefix=/usr/local
+  make
+  make install
+  cd .. 
 fi
 
 # git
@@ -124,6 +158,13 @@ blue '\nCustomizing git'
 git_config_file="$dir/git/.gitconfig"
 green "Copying $git_config_file to $HOME/.gitconfig"
 cp $git_config_file $HOME
+
+# tmux
+blue '\nCustomizing tmux'
+
+tmux_conf_file="$dir/tmux/.tmux.conf"
+green "Copying $tmux_conf_file to $HOME/.tmux.conf"
+cp $tmux_conf_file $HOME
 
 # bash
 blue '\nCustomizing bash'
@@ -158,7 +199,7 @@ green '\nInstalling vim plugins'
 # install ycm
 ycm_core_so_path="$HOME/.vim/bundle/youcompleteme/third_party/ycmd/ycm_core.so"
 if [ -f $ycm_core_so_path ]; then
-  yellow '\nYCM core alredy exists, skip building'
+  yellow '\nYCM core alredy exists, skip'
 else
   green '\nBuilding YCM'
   $HOME/.vim/bundle/youcompleteme/install.py
