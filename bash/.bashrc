@@ -12,7 +12,7 @@ if [ "$TERM" == "xterm" ]; then
 fi
 
 # export latest vim
-export PATH=$PATH:/usr/local/bin/vim
+export PATH=$PATH:/usr/local/bin
 
 # enable gcc g++ with higher version
 # once time command
