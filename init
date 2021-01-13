@@ -197,6 +197,9 @@ green '\nInstalling vim plugins'
 /usr/local/bin/vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa
 
 # install ycm
+# enable devtoolset-8
+scl enable devtoolset-8 -- bash
+
 ycm_core_so_path="$HOME/.vim/bundle/youcompleteme/third_party/ycmd/ycm_core.so"
 if [ -f $ycm_core_so_path ]; then
   yellow '\nYCM core alredy exists, skip'
